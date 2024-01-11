@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class JwtService {
+    public static final int EXPIRATION_TIME_24H = 1000 * 60 * 24;
     @Value("${token.signing.key}")
     private String jwtSigningKey;
     public String extractUserName(String token) {
@@ -39,7 +40,7 @@ public class JwtService {
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_24H))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
