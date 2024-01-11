@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -19,6 +20,7 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -79,7 +81,7 @@ public class User implements UserDetails {
     @Transient
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
