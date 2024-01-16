@@ -32,6 +32,9 @@ public class ProductService {
     }
 
     public Product createOrUpdate(Product product) {
+        if (product.getId() != null) {
+            findById(product.getId());
+        }
         return productRepository.save(product);
     }
 
