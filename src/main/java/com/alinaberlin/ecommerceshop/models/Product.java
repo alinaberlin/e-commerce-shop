@@ -1,9 +1,6 @@
 package com.alinaberlin.ecommerceshop.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -14,6 +11,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+
+    @Column(unique = true)
     private String name;
     private String description;
     private int  quantity;
