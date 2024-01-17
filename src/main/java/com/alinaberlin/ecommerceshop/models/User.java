@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private Collection<Order> orders;
 
     public User(String name, String email, String password, Role role) {

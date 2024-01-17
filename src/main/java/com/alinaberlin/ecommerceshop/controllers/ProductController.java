@@ -4,6 +4,7 @@ import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,13 +45,14 @@ public class ProductController {
     }
 
     //post/product to create a new product
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) {
         Product createdProduct = productService.createOrUpdate(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody Product product) {
         if (!Objects.equals(product.getId(), id)) {
@@ -60,6 +62,7 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.OK);
     }
     //Delete/product/{id} to delete a property listing
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id){
         productService.findById(id);
