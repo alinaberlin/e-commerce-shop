@@ -61,7 +61,7 @@ public class ProductController {
         Product createdProduct = productService.createOrUpdate(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.OK);
     }
-    //Delete/product/{id} to delete a property listing
+    //Delete/product/{id} to delete a product from the list
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id){
