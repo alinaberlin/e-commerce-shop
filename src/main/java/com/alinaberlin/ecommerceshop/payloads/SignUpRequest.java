@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.payloads;
 
 public class SignUpRequest {
+
     private String username;
 
     private String password;
