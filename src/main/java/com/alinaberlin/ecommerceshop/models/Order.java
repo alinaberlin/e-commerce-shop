@@ -14,22 +14,20 @@ public class Order {
     private int id;
     @Temporal(TemporalType.DATE)
     private Date date;
-    private OrderType orderType;
 
     @ManyToOne
     private User user;
 
     @ManyToMany
-    @JoinTable(name ="order_product",
+    @JoinTable(name = "order_product",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Collection<Product>  products;
+    private Collection<Product> products;
 
     private OrderStatus orderStatus;
 
-    public Order( Date date, OrderType orderType, Collection<Product> products, OrderStatus orderStatus, User user) {
+    public Order(Date date, Collection<Product> products, OrderStatus orderStatus, User user) {
         this.date = date;
-        this.orderType = orderType;
         this.products = products;
         this.orderStatus = orderStatus;
         this.user = user;
@@ -63,14 +61,6 @@ public class Order {
         this.date = date;
     }
 
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
-    }
-
     public Collection<Product> getProducts() {
         return products;
     }
@@ -92,12 +82,12 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return getId() == order.getId() && Objects.equals(getDate(), order.getDate()) && getOrderType() == order.getOrderType() && Objects.equals(getUser(), order.getUser()) && Objects.equals(getProducts(), order.getProducts()) && getOrderStatus() == order.getOrderStatus();
+        return getId() == order.getId() && Objects.equals(getDate(), order.getDate()) && Objects.equals(getUser(), order.getUser()) && Objects.equals(getProducts(), order.getProducts()) && getOrderStatus() == order.getOrderStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDate(), getOrderType(), getUser(), getProducts(), getOrderStatus());
+        return Objects.hash(getId(), getDate(), getUser(), getProducts(), getOrderStatus());
     }
 
     @Override
@@ -105,7 +95,6 @@ public class Order {
         return "{" +
                 "id=" + id +
                 ", date=" + date +
-                ", orderType=" + orderType +
                 ", user=" + user +
                 ", products=" + products +
                 ", orderStatus=" + orderStatus +
