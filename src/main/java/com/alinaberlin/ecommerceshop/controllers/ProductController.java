@@ -48,6 +48,9 @@ public class ProductController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) {
+        if (product.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Product createdProduct = productService.createOrUpdate(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
 
@@ -61,10 +64,10 @@ public class ProductController {
         Product createdProduct = productService.createOrUpdate(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.OK);
     }
-    //Delete/product/{id} to delete a product from the list
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
         productService.findById(id);
         productService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
