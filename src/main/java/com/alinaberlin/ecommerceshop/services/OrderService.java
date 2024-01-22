@@ -34,6 +34,19 @@ public class OrderService {
         throw new RuntimeException("Product doesn't has enought quantity");
     }
 
+    public Order changeStatus(OrderStatus status, Long id) {
+        Order order = null;
+        switch (status) {
+            case CANCELED -> order = cancelOrder(id);
+            case DISPATCHED -> order = changeStatusToDispatched(id);
+            case IN_DELIVERY -> order = changeStatusToINDelivery(id);
+            case DELIVERED -> order = changeStatusToDelivery(id);
+
+            default -> throw new IllegalStateException("Unexpected value: " + status);
+        }
+        return order;
+    }
+
     public Order cancelOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow();
         if (order.getOrderStatus() == OrderStatus.CREATED) {
