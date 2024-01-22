@@ -1,35 +1,33 @@
 package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @Temporal(TemporalType.DATE)
     private Date date;
-    private OrderType orderType;
 
     @ManyToOne
     private User user;
 
     @ManyToMany
-    @JoinTable(name ="order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Collection<Product>  products;
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Collection<Product> products;
 
     private OrderStatus orderStatus;
 
-    public Order( Date date, OrderType orderType, Collection<Product> products, OrderStatus orderStatus, User user) {
+    public Order(Date date, Collection<Product> products, OrderStatus orderStatus, User user) {
         this.date = date;
-        this.orderType = orderType;
         this.products = products;
         this.orderStatus = orderStatus;
         this.user = user;
@@ -39,7 +37,7 @@ public class Order {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,7 +49,7 @@ public class Order {
         this.user = user;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,14 +59,6 @@ public class Order {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
     }
 
     public Collection<Product> getProducts() {
@@ -92,23 +82,16 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return getId() == order.getId() && Objects.equals(getDate(), order.getDate()) && getOrderType() == order.getOrderType() && Objects.equals(getUser(), order.getUser()) && Objects.equals(getProducts(), order.getProducts()) && getOrderStatus() == order.getOrderStatus();
+        return getId() == order.getId() && Objects.equals(getDate(), order.getDate()) && Objects.equals(getUser(), order.getUser()) && Objects.equals(getProducts(), order.getProducts()) && getOrderStatus() == order.getOrderStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDate(), getOrderType(), getUser(), getProducts(), getOrderStatus());
+        return Objects.hash(getId(), getDate(), getUser(), getProducts(), getOrderStatus());
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", date=" + date +
-                ", orderType=" + orderType +
-                ", user=" + user +
-                ", products=" + products +
-                ", orderStatus=" + orderStatus +
-                '}';
+        return "{" + "id=" + id + ", date=" + date + ", user=" + user + ", products=" + products + ", orderStatus=" + orderStatus + '}';
     }
 }

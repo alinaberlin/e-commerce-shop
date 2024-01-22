@@ -1,8 +1,15 @@
 package com.alinaberlin.ecommerceshop.payloads;
 
-public class SignUpRequest {
-    private String username;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.lang.NonNull;
 
+public class SignUpRequest {
+    @Email
+    private String username;
+    @NotNull
+    @Size(min = 10, max = 15)
     private String password;
     private String name;
 
