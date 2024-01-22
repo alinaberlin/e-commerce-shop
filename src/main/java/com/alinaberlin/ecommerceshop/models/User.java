@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +19,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @Column(unique = true)
     private String email;
+    @Size(min=4, max = 10)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private Collection<Order> orders;
 
     public User(String name, String email, String password, Role role) {
