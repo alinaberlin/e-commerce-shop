@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @Temporal(TemporalType.DATE)
     private Date date;
 
@@ -37,7 +37,7 @@ public class Order {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -49,7 +49,7 @@ public class Order {
         this.user = user;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
