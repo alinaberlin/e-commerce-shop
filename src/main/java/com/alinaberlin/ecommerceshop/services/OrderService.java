@@ -70,6 +70,7 @@ public class OrderService {
     public Order changeStatusToDelivery(Long id) {
         Order order = orderRepository.findById(id).orElseThrow();
         if (order.getOrderStatus() == OrderStatus.IN_DELIVERY) {
+            order.setOrderStatus(OrderStatus.DELIVERED);
             return orderRepository.save(order);
         }
         throw new RuntimeException("Order cannot move to delivery because the current status is " + order.getOrderStatus());
