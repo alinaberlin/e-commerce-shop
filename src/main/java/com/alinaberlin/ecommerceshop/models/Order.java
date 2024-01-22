@@ -1,6 +1,8 @@
 package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Collection;
 import java.util.Date;
@@ -19,9 +21,7 @@ public class Order {
     private User user;
 
     @ManyToMany
-    @JoinTable(name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Collection<Product> products;
 
     private OrderStatus orderStatus;
@@ -92,12 +92,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", date=" + date +
-                ", user=" + user +
-                ", products=" + products +
-                ", orderStatus=" + orderStatus +
-                '}';
+        return "{" + "id=" + id + ", date=" + date + ", user=" + user + ", products=" + products + ", orderStatus=" + orderStatus + '}';
     }
 }
