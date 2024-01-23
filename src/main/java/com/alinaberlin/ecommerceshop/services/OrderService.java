@@ -7,6 +7,9 @@ import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
+
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -87,5 +90,12 @@ public class OrderService {
             return orderRepository.save(order);
         }
         throw new RuntimeException("Order cannot move to delivery because the current status is " + order.getOrderStatus());
+    }
+    public List<Order> findOrderByUserId(Long id){
+       return orderRepository.findOrderByUserId(id);
+    }
+
+    public Order findById(Long id) {
+        return orderRepository.findById(id).orElseThrow();
     }
 }
