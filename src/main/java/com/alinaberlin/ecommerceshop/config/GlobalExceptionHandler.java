@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(e.getMessage());
     }
 
-    //NoSuchElementException -> HttpStatus.NOT_FOUND
     @ExceptionHandler(InvalidIdException.class)
     public ResponseEntity<String> handleInvalidIdException(InvalidIdException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
