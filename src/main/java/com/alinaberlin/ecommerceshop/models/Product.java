@@ -16,18 +16,28 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Double price;
     @Column(unique = true)
     private String name;
     private String description;
-    private int  quantity;
+    private int quantity;
 
     public Product() {
     }
 
-    public Product(String name, String description, int quantity) {
+    public Product(String name, String description, int quantity, double price) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
+        this.price = price;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Long getId() {
@@ -67,21 +77,16 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return getQuantity() == product.getQuantity() && Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription());
+        return Objects.equals(getId(), product.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getQuantity());
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", quantity=" + quantity +
-                '}';
+        return "{" + "id='" + id + '\'' + ", price=" + price + ", name='" + name + '\'' + ", description='" + description + '\'' + ", quantity=" + quantity + '}';
     }
 }

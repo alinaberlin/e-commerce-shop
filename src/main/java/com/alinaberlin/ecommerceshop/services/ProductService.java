@@ -1,5 +1,6 @@
 package com.alinaberlin.ecommerceshop.services;
 
+import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(() -> new InvalidIdException("Product not found"));
     }
 
     public List<Product> findAll() {

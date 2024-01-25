@@ -1,6 +1,8 @@
 package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Collection;
 import java.util.Date;
@@ -14,22 +16,18 @@ public class Order {
     private Long id;
     @Temporal(TemporalType.DATE)
     private Date date;
-    private OrderType orderType;
 
     @ManyToOne
     private User user;
 
     @ManyToMany
-    @JoinTable(name ="order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Collection<Product>  products;
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Collection<Product> products;
 
     private OrderStatus orderStatus;
 
-    public Order( Date date, OrderType orderType, Collection<Product> products, OrderStatus orderStatus, User user) {
+    public Order(Date date, Collection<Product> products, OrderStatus orderStatus, User user) {
         this.date = date;
-        this.orderType = orderType;
         this.products = products;
         this.orderStatus = orderStatus;
         this.user = user;
@@ -63,14 +61,6 @@ public class Order {
         this.date = date;
     }
 
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
-    }
-
     public Collection<Product> getProducts() {
         return products;
     }
@@ -92,23 +82,16 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return getId() == order.getId() && Objects.equals(getDate(), order.getDate()) && getOrderType() == order.getOrderType() && Objects.equals(getUser(), order.getUser()) && Objects.equals(getProducts(), order.getProducts()) && getOrderStatus() == order.getOrderStatus();
+        return Objects.equals(getId(), order.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDate(), getOrderType(), getUser(), getProducts(), getOrderStatus());
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", date=" + date +
-                ", orderType=" + orderType +
-                ", user=" + user +
-                ", products=" + products +
-                ", orderStatus=" + orderStatus +
-                '}';
+        return "{" + "id=" + id + ", date=" + date + ", user=" + user + ", products=" + products + ", orderStatus=" + orderStatus + '}';
     }
 }
