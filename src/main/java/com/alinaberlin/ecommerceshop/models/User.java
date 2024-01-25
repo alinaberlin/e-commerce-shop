@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private String name;
     @Column(unique = true)
     private String email;
-    @Size(min=4, max = 10)
+    @Size(min = 4, max = 10)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -80,6 +80,7 @@ public class User implements UserDetails {
 
     /**
      * Construct user rights
+     *
      * @return users rights
      */
     @Transient
@@ -123,12 +124,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return getId() == user.getId() && Objects.equals(getName(), user.getName()) && Objects.equals(email, user.email) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole() && Objects.equals(getOrders(), user.getOrders());
+        return getId() == user.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), email, getPassword(), getRole(), getOrders());
+        return Objects.hash(getId());
     }
 
     @Override

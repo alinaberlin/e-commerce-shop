@@ -27,7 +27,7 @@ public class AuthenticationService {
     }
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        User user = new User(request.getName(), request.getUsername(), passwordEncoder.encode(request.getPassword()), Role.USER);;
+        User user = new User(request.getName(), request.getUsername(), passwordEncoder.encode(request.getPassword()), Role.USER);
         userRepository.save(user);
         String jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);

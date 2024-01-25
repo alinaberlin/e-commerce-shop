@@ -41,41 +41,30 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(Principal principal, @PathVariable Long id) {
-        // User user = userRepository.findUserByEmail(principal.getName()).orElseThrow();
-        Order order = orderService.findById(id);
-        if (order.getUser().getUsername().equals(principal.getName())) {
-            return new ResponseEntity<>(order, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        Order order = orderService.checksRightsOnOrder(id, principal.getName());
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Order> cancelOrder(Principal principal, @PathVariable Long id) {
-        Order order = orderService.findById(id);
-        if (order.getUser().getUsername().equals(principal.getName())) {
-            Order canceledOrder = orderService.cancelOrder(id);
-            return new ResponseEntity<>(canceledOrder, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        Order order = orderService.checksRightsOnOrder(id, principal.getName());
+        Order canceledOrder = orderService.cancelOrder(order.getId());
+        return new ResponseEntity<>(canceledOrder, HttpStatus.OK);
+
     }
 
     @PostMapping
     public ResponseEntity<Order> addProduct(Principal principal, @RequestBody AddProduct addproduct) {
-        Order order = orderService.findById(addproduct.orderId());
-        if (order.getUser().getUsername().equals(principal.getName())) {
-            Order updatedOrder = orderService.addProduct(order, addproduct.productId());
-            return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        Order order = orderService.checksRightsOnOrder(addproduct.orderId(), principal.getName());
+        Order updatedOrder = orderService.addProduct(order, addproduct.productId());
+        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Order> changeStatus(Principal principal, @RequestBody UpdateOrderStatus updateOrderStatus, @PathVariable Long id) {
-        Order order = orderService.findById(id);
-        if (order.getUser().getUsername().equals(principal.getName())) {
-            Order orderStatus = orderService.changeStatus(updateOrderStatus.status(), order.getId());
-            return new ResponseEntity<>(orderStatus, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        Order order = orderService.checksRightsOnOrder(id, principal.getName());
+        Order orderStatus = orderService.changeStatus(updateOrderStatus.status(), order.getId());
+        return new ResponseEntity<>(orderStatus, HttpStatus.OK);
     }
+
 }

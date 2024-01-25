@@ -77,12 +77,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return getQuantity() == product.getQuantity() && Objects.equals(getId(), product.getId()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription());
+        return Objects.equals(getId(), product.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPrice(), getName(), getDescription(), getQuantity());
+        return Objects.hash(getId());
     }
 
     @Override
