@@ -86,7 +86,8 @@ class ProductControllerTest {
     }
 
     @Test
-    void deleteProduct() {
+    void
+    deleteProduct() {
         Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
         product.setId(1L);
         Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));

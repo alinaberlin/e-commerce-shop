@@ -32,6 +32,14 @@ public class OrderController {
         this.userRepository = userRepository;
     }
 
+    @PostMapping
+    public ResponseEntity<Order> createCart(Principal principal, @RequestBody Order order) {
+        User user = userRepository.findUserByEmail(principal.getName()).orElseThrow();
+        order.setUser(user);
+        Order cart = orderService.createCard(order);
+        return new ResponseEntity<>(cart, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders(Principal principal) {
         User user = userRepository.findUserByEmail(principal.getName()).orElseThrow();
