@@ -24,15 +24,30 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public Order createOrder(Order order) {
-        order.setOrderStatus(OrderStatus.CREATED);
-        return orderRepository.save(order);
+    public Order createCard(Order card ) {
+        List<Order> current = orderRepository.findOrderByOrderStatusAndUserId(OrderStatus.CART, card.getUser().getId());
+        if (current.isEmpty()) {
+            card.setOrderStatus(OrderStatus.CART);
+            return orderRepository.save(card);
+        }
+        return current.get(0);
+    }
+
+    public Order createOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow();
+        if (order.getOrderStatus() == OrderStatus.CART) {
+            order.setOrderStatus(OrderStatus.CREATED);
+            return orderRepository.save(order);
+        }
+        throw new InvalidStateException("Order cannot create order because current status is " + order.getOrderStatus());
     }
 
     public Order addProduct(Order order, Long id) {
+        if (order.getOrderStatus() != OrderStatus.CART) {
+            throw new InvalidStateException("This is not a cart");
+        }
         Product product = productRepository.findById(id).orElseThrow();
-        if (product.getQuantity() > 1) {
-            order.getProducts().add(product);
+        if (product.getQuantity() > 1 && order.getProducts().add(product)) {
             orderRepository.save(order);
             product.setQuantity(product.getQuantity() - 1);
             productRepository.save(product);
@@ -44,6 +59,7 @@ public class OrderService {
     public Order changeStatus(OrderStatus status, Long id) {
         Order order = null;
         switch (status) {
+            case CREATED -> order = createOrder(id);
             case CANCELED -> order = cancelOrder(id);
             case DISPATCHED -> order = changeStatusToDispatched(id);
             case IN_DELIVERY -> order = changeStatusToINDelivery(id);
