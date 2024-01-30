@@ -19,7 +19,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository,ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
     }
@@ -79,8 +79,9 @@ public class OrderService {
             });
             order.setOrderStatus(OrderStatus.CANCELED);
             orderRepository.save(order);
+            return order;
         }
-        return order;
+       throw new InvalidStateException("Unexpected value: ");
     }
 
 
