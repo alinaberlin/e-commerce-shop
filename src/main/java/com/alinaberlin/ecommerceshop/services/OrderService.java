@@ -79,8 +79,9 @@ public class OrderService {
             });
             order.setOrderStatus(OrderStatus.CANCELED);
             orderRepository.save(order);
+            return order;
         }
-        return order;
+       throw new InvalidStateException("Unexpected value: ");
     }
 
 

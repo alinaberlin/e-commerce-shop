@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
 
+import com.alinaberlin.ecommerceshop.exceptions.InvalidStateException;
 import com.alinaberlin.ecommerceshop.models.Order;
 import com.alinaberlin.ecommerceshop.models.OrderStatus;
 import com.alinaberlin.ecommerceshop.models.Product;
@@ -101,8 +102,19 @@ public class OrderControllerTest {
         order2.setId(1L);
         Mockito.when(orderRepository.save(order2)).thenReturn(order2);
         ResponseEntity<Order> result = orderController.cancelOrder(principal, 1L);
-        Assertions.assertEquals(order2.getOrderStatus(), result.getBody().getOrderStatus());
+        Assertions.assertEquals(order2.getOrderStatus(), Objects.requireNonNull(result.getBody()).getOrderStatus());
     }
+    @Test
+    void shouldNotCancelOrder() {
+        User user = new User("Trei", "alina@gmail.com", "123456", Role.ADMIN);
+        user.setId(1);
+        Order order = new Order(new Date(), OrderStatus.DISPATCHED, user);
+        order.setId(1L);
+        Mockito.when(principal.getName()).thenReturn(user.getUsername());
+        Mockito.when(orderRepository.findById(1l)).thenReturn(Optional.of(order));
+        Assertions.assertThrows(InvalidStateException.class, () -> orderController.cancelOrder(principal, 1L));
+    }
+
 
     @Test
     void shouldAddProduct() {
