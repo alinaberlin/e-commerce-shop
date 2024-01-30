@@ -2,6 +2,7 @@ package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
 import java.util.Objects;
@@ -20,7 +21,7 @@ public class Order {
 
     @ManyToMany
     @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     private OrderStatus orderStatus;
 
@@ -30,6 +31,12 @@ public class Order {
         this.orderStatus = orderStatus;
         this.user = user;
     }
+    public Order(Date date,  OrderStatus orderStatus, User user) {
+        this.date = date;
+        this.orderStatus = orderStatus;
+        this.user = user;
+    }
+
 
     public Order() {
 
