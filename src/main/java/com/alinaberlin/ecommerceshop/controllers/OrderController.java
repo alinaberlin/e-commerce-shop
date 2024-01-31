@@ -61,7 +61,7 @@ public class OrderController {
 
     }
 
-    @PostMapping
+    @PostMapping("/products/add")
     public ResponseEntity<Order> addProduct(Principal principal, @RequestBody AddProduct addproduct) {
         Order order = orderService.checksRightsOnOrder(addproduct.orderId(), principal.getName());
         Order updatedOrder = orderService.addProduct(order, addproduct.productId());
