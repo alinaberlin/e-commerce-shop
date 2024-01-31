@@ -48,6 +48,8 @@ public class OrderService {
         }
         Product product = productRepository.findById(id).orElseThrow();
         if (product.getQuantity() > 1 && order.getProducts().add(product)) {
+            double total = order.getProducts().stream().map(Product::getPrice).reduce(0.0, Double::sum);
+            order.setTotal(total);
             orderRepository.save(order);
             product.setQuantity(product.getQuantity() - 1);
             productRepository.save(product);

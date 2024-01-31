@@ -24,6 +24,7 @@ public class Order {
     private Set<Product> products = new HashSet<>();
 
     private OrderStatus orderStatus;
+    private Double total;
 
     public Order(Date date, Set<Product> products, OrderStatus orderStatus, User user) {
         this.date = date;
@@ -37,6 +38,13 @@ public class Order {
         this.user = user;
     }
 
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
 
     public Order() {
 
