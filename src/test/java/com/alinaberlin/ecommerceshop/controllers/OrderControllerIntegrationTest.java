@@ -5,6 +5,8 @@ import com.alinaberlin.ecommerceshop.models.OrderStatus;
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.models.Role;
 import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.payloads.AddProduct;
+import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
@@ -53,15 +55,14 @@ public class OrderControllerIntegrationTest {
     @BeforeEach
     void setUp() {
         user = userRepository.save(new User("Alina", "alina@gmail.com", passwordEncoder.encode("12345"), Role.USER));
-        user.setId(1L);
         product = productRepository.save(new Product("Lipstick", "Dior Nude 02", 2, 55.34));
     }
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
-        productRepository.deleteAll();
-        orderRepository.deleteAll();
+        //userRepository.deleteAll();
+        //orderRepository.deleteAll();
+        //productRepository.deleteAll();
     }
 
     @Test
@@ -76,6 +77,84 @@ public class OrderControllerIntegrationTest {
                 .and().body(mapper.writeValueAsString(order))
                 .when().post("/orders")
                 .then().assertThat().statusCode(201);
+    }
+
+    @Test
+    void shouldCreateAOrder() throws JsonProcessingException {
+        String token = getToken();
+        Order order = new Order(new Date(), OrderStatus.CART, user);
+        order.getProducts().add(product);
+        order = orderRepository.save(order);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+        UpdateOrderStatus updateOrderStatus = new UpdateOrderStatus(OrderStatus.CREATED);
+        given().port(8080)
+                .and()
+                .headers(headers)
+                .and()
+                .body(mapper.writeValueAsString(updateOrderStatus))
+                .when().patch("/orders/"+order.getId())
+                .then()
+                .assertThat()
+                .statusCode(200);
+
+
+    }
+    @Test
+    void shouldDeleteOrder() throws JsonProcessingException {
+        String token = getToken();
+        Order order = new Order(new Date(), OrderStatus.CREATED, user);
+        order.getProducts().add(product);
+        order = orderRepository.save(order);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+        given().port(8080)
+                .and()
+                .headers(headers)
+                .when().delete("/orders/"+order.getId())
+                .then()
+                .assertThat()
+                .statusCode(204);
+
+    }
+    @Test
+    void shouldAddProduct() throws JsonProcessingException {
+        String token = getToken();
+        Order order = new Order(new Date(), OrderStatus.CART, user);
+        order = orderRepository.save(order);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+        headers.put("Authorization", "Bearer " + token);
+        AddProduct addProduct = new AddProduct(order.getId(), product.getId());
+        given().port(8080)
+                .and()
+                .headers(headers).and().body(mapper.writeValueAsString(addProduct))
+                .when().post("/orders/products/add")
+                .then()
+                .assertThat()
+                .statusCode(200);
+
+    }
+    @Test
+    void shouldGiveAnOrderByIt(){
+        String token = getToken();
+        Order order = new Order(new Date(), OrderStatus.CART, user);
+        order = orderRepository.save(order);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+        headers.put("Authorization", "Bearer " + token);
+        given().port(8080)
+                .and()
+                .headers(headers)
+                .when().get("/orders/"+ order.getId())
+                .then()
+                .assertThat()
+                .statusCode(200);
+
     }
 
 }
