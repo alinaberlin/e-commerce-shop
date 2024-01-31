@@ -13,8 +13,8 @@ import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +58,12 @@ public class OrderControllerIntegrationTest {
         product = productRepository.save(new Product("Lipstick", "Dior Nude 02", 2, 55.34));
     }
 
+    @Transactional
     @AfterEach
-    void tearDown() {
-        //userRepository.deleteAll();
-        //orderRepository.deleteAll();
-        //productRepository.deleteAll();
+    public void tearDown() {
+        orderRepository.deleteAll();
+        userRepository.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
@@ -83,8 +84,9 @@ public class OrderControllerIntegrationTest {
     void shouldCreateAOrder() throws JsonProcessingException {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CART, user);
-        order.getProducts().add(product);
         order = orderRepository.save(order);
+        order.getProducts().add(product);
+        orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
@@ -94,31 +96,32 @@ public class OrderControllerIntegrationTest {
                 .headers(headers)
                 .and()
                 .body(mapper.writeValueAsString(updateOrderStatus))
-                .when().patch("/orders/"+order.getId())
+                .when().patch("/orders/" + order.getId())
                 .then()
                 .assertThat()
                 .statusCode(200);
-
-
     }
+
     @Test
     void shouldDeleteOrder() throws JsonProcessingException {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CREATED, user);
-        order.getProducts().add(product);
         order = orderRepository.save(order);
+        order.getProducts().add(product);
+        orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
         given().port(8080)
                 .and()
                 .headers(headers)
-                .when().delete("/orders/"+order.getId())
+                .when().delete("/orders/" + order.getId())
                 .then()
                 .assertThat()
                 .statusCode(204);
 
     }
+
     @Test
     void shouldAddProduct() throws JsonProcessingException {
         String token = getToken();
@@ -138,8 +141,9 @@ public class OrderControllerIntegrationTest {
                 .statusCode(200);
 
     }
+
     @Test
-    void shouldGiveAnOrderByIt(){
+    void shouldGiveAnOrderByIt() {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CART, user);
         order = orderRepository.save(order);
@@ -150,7 +154,7 @@ public class OrderControllerIntegrationTest {
         given().port(8080)
                 .and()
                 .headers(headers)
-                .when().get("/orders/"+ order.getId())
+                .when().get("/orders/" + order.getId())
                 .then()
                 .assertThat()
                 .statusCode(200);
