@@ -2,6 +2,7 @@ package com.alinaberlin.ecommerceshop.controllers;
 
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,6 +27,11 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> findAll(@RequestParam("page") int pageNum, @RequestParam("size")int size){
+        return ResponseEntity.ok(productService.findAll(pageNum, size));
     }
 
     //GET/ to list all properties/to list a product

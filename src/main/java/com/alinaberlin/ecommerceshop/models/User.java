@@ -1,5 +1,6 @@
 package com.alinaberlin.ecommerceshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Entity
+@Entity(name="app_users")
 public class User implements UserDetails {
 
     @Id
@@ -34,6 +35,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Collection<Order> orders;
@@ -92,6 +94,7 @@ public class User implements UserDetails {
      * @return users rights
      */
     @Transient
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));

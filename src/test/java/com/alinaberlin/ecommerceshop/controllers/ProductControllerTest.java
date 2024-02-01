@@ -1,5 +1,6 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
+import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.services.ProductService;
@@ -54,7 +55,7 @@ class ProductControllerTest {
     @Test
     void getProductByIdShouldThrowException() {
         Mockito.when(productRepository.findById(2L)).thenReturn(Optional.empty());
-        Assertions.assertThrows(NoSuchElementException.class, () -> productController.getProductById(2L));
+        Assertions.assertThrows(InvalidIdException.class, () -> productController.getProductById(2L));
     }
 
     @Test

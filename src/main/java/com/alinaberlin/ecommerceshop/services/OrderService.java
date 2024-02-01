@@ -19,12 +19,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository,ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
     }
 
-    public Order createCard(Order card ) {
+    public Order createCard(Order card) {
         List<Order> current = orderRepository.findOrderByOrderStatusAndUserId(OrderStatus.CART, card.getUser().getId());
         if (current.isEmpty()) {
             card.setOrderStatus(OrderStatus.CART);
@@ -48,6 +48,8 @@ public class OrderService {
         }
         Product product = productRepository.findById(id).orElseThrow();
         if (product.getQuantity() > 1 && order.getProducts().add(product)) {
+            double total = order.getProducts().stream().map(Product::getPrice).reduce(0.0, Double::sum);
+            order.setTotal(total);
             orderRepository.save(order);
             product.setQuantity(product.getQuantity() - 1);
             productRepository.save(product);
@@ -81,7 +83,7 @@ public class OrderService {
             orderRepository.save(order);
             return order;
         }
-       throw new InvalidStateException("Unexpected value: ");
+        throw new InvalidStateException("Unexpected value: ");
     }
 
 

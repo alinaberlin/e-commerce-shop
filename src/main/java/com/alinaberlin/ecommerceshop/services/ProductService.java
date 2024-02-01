@@ -3,6 +3,8 @@ package com.alinaberlin.ecommerceshop.services;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,10 @@ public class ProductService {
     public Product findByName(String name) {
 
         return productRepository.findProductByName(name).orElse(null);
+    }
+    public Page<Product> findAll(int pageNum, int size){
+        PageRequest request = PageRequest.of(pageNum, size);
+        return productRepository.findAll(request);
     }
 
     public Product findById(Long id) {

@@ -57,11 +57,11 @@ public class OrderController {
     public ResponseEntity<Order> cancelOrder(Principal principal, @PathVariable Long id) {
         Order order = orderService.checksRightsOnOrder(id, principal.getName());
         Order canceledOrder = orderService.cancelOrder(order.getId());
-        return new ResponseEntity<>(canceledOrder, HttpStatus.OK);
+        return new ResponseEntity<>(canceledOrder, HttpStatus.NO_CONTENT);
 
     }
 
-    @PostMapping
+    @PostMapping("/products/add")
     public ResponseEntity<Order> addProduct(Principal principal, @RequestBody AddProduct addproduct) {
         Order order = orderService.checksRightsOnOrder(addproduct.orderId(), principal.getName());
         Order updatedOrder = orderService.addProduct(order, addproduct.productId());
