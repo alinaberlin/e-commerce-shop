@@ -14,7 +14,6 @@ import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -55,8 +54,6 @@ public class OrderControllerIntegrationTest {
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
-
-    private ObjectMapper mapper = new ObjectMapper();
 
     private String getToken() {
         Response response = given().port(8080).and().header("Content-type", "application/json")
@@ -110,7 +107,6 @@ public class OrderControllerIntegrationTest {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order = orderRepository.save(order);
-        //order.getItems().add(new OrderItem(new OrderItemId(product.getId(), order.getId()), product));
         orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
@@ -132,7 +128,6 @@ public class OrderControllerIntegrationTest {
         order = orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
-        headers.put("Authorization", "Bearer " + token);
         headers.put("Authorization", "Bearer " + token);
         given().port(8080)
                 .and()
