@@ -1,11 +1,20 @@
 package com.alinaberlin.ecommerceshop.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "orders")
 public class Order {
@@ -19,30 +28,38 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private Set<OrderItem> items = new HashSet<>();
 
     private OrderStatus orderStatus;
-    private Double total;
+    private BigDecimal total;
 
-    public Order(Date date, Set<Product> products, OrderStatus orderStatus, User user) {
-        this.date = date;
-        this.products = products;
-        this.orderStatus = orderStatus;
-        this.user = user;
-    }
-    public Order(Date date,  OrderStatus orderStatus, User user) {
+    public Order(Date date, Set<OrderItem> items, OrderStatus orderStatus, User user) {
         this.date = date;
         this.orderStatus = orderStatus;
         this.user = user;
+        this.items = items;
     }
 
-    public Double getTotal() {
+    public Order(Date date, OrderStatus orderStatus, User user) {
+        this.date = date;
+        this.orderStatus = orderStatus;
+        this.user = user;
+    }
+
+    public Order(Date date, OrderStatus orderStatus, User user, BigDecimal total) {
+        this.date = date;
+        this.orderStatus = orderStatus;
+        this.user = user;
+        this.total = total;
+    }
+
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
@@ -74,20 +91,20 @@ public class Order {
         this.date = date;
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     @Override
@@ -105,6 +122,13 @@ public class Order {
 
     @Override
     public String toString() {
-        return "{" + "id=" + id + ", date=" + date + ", user=" + user + ", products=" + products + ", orderStatus=" + orderStatus + '}';
+        return "{" +
+                "id=" + id +
+                ", date=" + date +
+                ", user=" + user +
+                ", items=" + items +
+                ", orderStatus=" + orderStatus +
+                ", total=" + total +
+                '}';
     }
 }

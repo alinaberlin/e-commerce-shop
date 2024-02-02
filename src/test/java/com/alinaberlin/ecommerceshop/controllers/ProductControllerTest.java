@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -33,9 +34,9 @@ class ProductControllerTest {
 
     @Test
     void getAllProducts() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(3L);
-        Product product2 = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product2 = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product2.setId(2L);
         Mockito.when(productRepository.findAll()).thenReturn(List.of(product, product2));
         ResponseEntity<List<Product>> result = productController.getAllProducts();
@@ -45,7 +46,7 @@ class ProductControllerTest {
 
     @Test
     void shouldGetProductById() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(3L);
         Mockito.when(productRepository.findById(3L)).thenReturn(Optional.of(product));
         ResponseEntity<Product> result = productController.getProductById(3L);
@@ -60,9 +61,9 @@ class ProductControllerTest {
 
     @Test
     void shouldCreateProductSucessful() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(1L);
-        Product product2 = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product2 = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         Mockito.when(productRepository.save(product2)).thenReturn(product);
         ResponseEntity<Product> result = productController.create(product2);
         Assertions.assertEquals(product, result.getBody());
@@ -70,7 +71,7 @@ class ProductControllerTest {
 
     @Test
     void shouldUpdateProductSuccessful() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(1L);
         Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         Mockito.when(productRepository.save(product)).thenReturn(product);
@@ -80,7 +81,7 @@ class ProductControllerTest {
 
     @Test
     void updateProductWrongPathId() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(1L);
         ResponseEntity<Product> result = productController.update(2L, product);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
@@ -89,7 +90,7 @@ class ProductControllerTest {
     @Test
     void
     deleteProduct() {
-        Product product = new Product("Cheese", "Very good creamy cheese", 2, 20.00);
+        Product product = new Product("Cheese", "Very good creamy cheese", 2, BigDecimal.valueOf(20.00));
         product.setId(1L);
         Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         ResponseEntity<Product> result = productController.deleteProduct(1L);
