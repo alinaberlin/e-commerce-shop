@@ -35,7 +35,7 @@ public class CartService {
     @Transactional
     public CartItem addItem(Long userId, Long productId, int quantity) {
         Cart cart = findByUserId(userId);
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new InvalidIdException("Invalid product id"));
         if (product.getQuantity() >= quantity) {
             product.setQuantity(product.getQuantity() - quantity);
             productRepository.save(product);
@@ -49,9 +49,9 @@ public class CartService {
     @Transactional
     public CartItem updateItem(Long userId, Long productId, int quantity) {
         Cart cart = findByUserId(userId);
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new InvalidIdException("Invalid product id"));
         CartItemId itemId = new CartItemId(productId, cart.getId());
-        CartItem item = cartItemRepository.findById(itemId).orElseThrow();
+        CartItem item = cartItemRepository.findById(itemId).orElseThrow(() -> new InvalidIdException("Invalid cart item id"));
         int diff = quantity - item.getQuantity();
         if (product.getQuantity() >= diff) {
             product.setQuantity(product.getQuantity() - diff);
