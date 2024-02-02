@@ -4,14 +4,24 @@ import com.alinaberlin.ecommerceshop.exceptions.ForbiddenException;
 import com.alinaberlin.ecommerceshop.exceptions.InsuficientStockException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidStateException;
+import com.alinaberlin.ecommerceshop.models.Cart;
 import com.alinaberlin.ecommerceshop.models.Order;
+import com.alinaberlin.ecommerceshop.models.OrderItem;
+import com.alinaberlin.ecommerceshop.models.OrderItemId;
 import com.alinaberlin.ecommerceshop.models.OrderStatus;
 import com.alinaberlin.ecommerceshop.models.Product;
+import com.alinaberlin.ecommerceshop.repositories.OrderItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -19,49 +29,39 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    private final CartService cartService;
+
+    private final OrderItemRepository orderItemRepository;
+
+
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, CartService cartService, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.cartService = cartService;
+        this.orderItemRepository = orderItemRepository;
     }
 
-    public Order createCard(Order card) {
-        List<Order> current = orderRepository.findOrderByOrderStatusAndUserId(OrderStatus.CART, card.getUser().getId());
-        if (current.isEmpty()) {
-            card.setOrderStatus(OrderStatus.CART);
-            return orderRepository.save(card);
-        }
-        return current.get(0);
-    }
-
-    public Order createOrder(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow();
-        if (order.getOrderStatus() == OrderStatus.CART) {
-            order.setOrderStatus(OrderStatus.CREATED);
-            return orderRepository.save(order);
-        }
-        throw new InvalidStateException("Order cannot create order because current status is " + order.getOrderStatus());
-    }
-
-    public Order addProduct(Order order, Long id) {
-        if (order.getOrderStatus() != OrderStatus.CART) {
-            throw new InvalidStateException("This is not a cart");
-        }
-        Product product = productRepository.findById(id).orElseThrow();
-        if (product.getQuantity() > 1 && order.getProducts().add(product)) {
-            double total = order.getProducts().stream().map(Product::getPrice).reduce(0.0, Double::sum);
-            order.setTotal(total);
-            orderRepository.save(order);
-            product.setQuantity(product.getQuantity() - 1);
-            productRepository.save(product);
-            return order;
-        }
-        throw new InsuficientStockException("Product doesn't has enough quantity");
+    @Transactional
+    public Order createOrder(Long userId) {
+        Cart cart = cartService.findByUserId(userId);
+        BigDecimal total = cart.getItems()
+                .stream()
+                .map(item -> item.getProduct()
+                        .getPrice()
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.valueOf(0.0), BigDecimal::add);
+        Order order = orderRepository.save(new Order(new Date(), OrderStatus.CREATED, cart.getUser(), total));
+        Set<OrderItem> items = cart.getItems()
+                .stream()
+                .map(item -> new OrderItem(new OrderItemId(item.getId().getProductId(), order.getId()),
+                        item.getQuantity(), item.getProduct())).collect(Collectors.toSet());
+        orderItemRepository.saveAll(items);
+        return order;
     }
 
     public Order changeStatus(OrderStatus status, Long id) {
         Order order = null;
         switch (status) {
-            case CREATED -> order = createOrder(id);
             case CANCELED -> order = cancelOrder(id);
             case DISPATCHED -> order = changeStatusToDispatched(id);
             case IN_DELIVERY -> order = changeStatusToINDelivery(id);
@@ -75,7 +75,8 @@ public class OrderService {
     public Order cancelOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow();
         if (order.getOrderStatus() == OrderStatus.CREATED) {
-            order.getProducts().forEach(product -> {
+            order.getItems().forEach(item -> {
+                Product product = item.getProduct();
                 product.setQuantity(product.getQuantity() + 1);
                 productRepository.save(product);
             });

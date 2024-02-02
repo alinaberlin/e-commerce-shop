@@ -2,7 +2,6 @@ package com.alinaberlin.ecommerceshop.controllers;
 
 import com.alinaberlin.ecommerceshop.models.Order;
 import com.alinaberlin.ecommerceshop.models.User;
-import com.alinaberlin.ecommerceshop.payloads.AddProduct;
 import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.OrderService;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -26,18 +26,16 @@ public class OrderController {
     private final OrderService orderService;
     private final UserRepository userRepository;
 
-
     public OrderController(OrderService orderService, UserRepository userRepository) {
         this.orderService = orderService;
         this.userRepository = userRepository;
     }
 
     @PostMapping
-    public ResponseEntity<Order> createCart(Principal principal, @RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(Principal principal) {
         User user = userRepository.findUserByEmail(principal.getName()).orElseThrow();
-        order.setUser(user);
-        Order cart = orderService.createCard(order);
-        return new ResponseEntity<>(cart, HttpStatus.CREATED);
+        Order order = orderService.createOrder(user.getId());
+        return ResponseEntity.created(URI.create("/orders/" + order.getId())).body(order);
     }
 
     @GetMapping
@@ -59,13 +57,6 @@ public class OrderController {
         Order canceledOrder = orderService.cancelOrder(order.getId());
         return new ResponseEntity<>(canceledOrder, HttpStatus.NO_CONTENT);
 
-    }
-
-    @PostMapping("/products/add")
-    public ResponseEntity<Order> addProduct(Principal principal, @RequestBody AddProduct addproduct) {
-        Order order = orderService.checksRightsOnOrder(addproduct.orderId(), principal.getName());
-        Order updatedOrder = orderService.addProduct(order, addproduct.productId());
-        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
