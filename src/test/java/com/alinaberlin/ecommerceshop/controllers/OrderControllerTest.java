@@ -13,6 +13,7 @@ import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
+import com.alinaberlin.ecommerceshop.services.OrderHistoryService;
 import com.alinaberlin.ecommerceshop.services.OrderService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,10 +49,12 @@ public class OrderControllerTest {
     @Mock
     private OrderItemRepository orderItemRepository;
     private OrderController orderController;
+    @Mock
+    private OrderHistoryService orderHistoryService;
 
     @BeforeEach
     public void setUp() {
-        orderController = new OrderController(new OrderService(orderRepository, productRepository, cartService, orderItemRepository), userRepository);
+        orderController = new OrderController(new OrderService(orderRepository, productRepository, cartService, orderItemRepository, orderHistoryService), userRepository);
     }
 
     @Test
