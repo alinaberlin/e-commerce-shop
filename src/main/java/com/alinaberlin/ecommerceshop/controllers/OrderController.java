@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
 import com.alinaberlin.ecommerceshop.models.Order;
+import com.alinaberlin.ecommerceshop.models.OrderHistory;
 import com.alinaberlin.ecommerceshop.models.User;
 import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
@@ -66,4 +67,10 @@ public class OrderController {
         return new ResponseEntity<>(orderStatus, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/history")
+    public ResponseEntity<List<OrderHistory>> getHistory(Principal principal, @PathVariable Long id) {
+        orderService.checksRightsOnOrder(id, principal.getName());
+        List<OrderHistory> histories = orderService.getHistory(id);
+        return new ResponseEntity<>(histories, HttpStatus.OK);
+    }
 }

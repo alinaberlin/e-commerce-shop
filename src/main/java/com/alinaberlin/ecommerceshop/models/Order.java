@@ -1,6 +1,8 @@
 package com.alinaberlin.ecommerceshop.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +33,7 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "order_id")
     private Set<OrderItem> items = new HashSet<>();
-
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private BigDecimal total;
 

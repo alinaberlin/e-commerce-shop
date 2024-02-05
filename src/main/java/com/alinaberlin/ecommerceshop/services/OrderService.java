@@ -6,6 +6,7 @@ import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidStateException;
 import com.alinaberlin.ecommerceshop.models.Cart;
 import com.alinaberlin.ecommerceshop.models.Order;
+import com.alinaberlin.ecommerceshop.models.OrderHistory;
 import com.alinaberlin.ecommerceshop.models.OrderItem;
 import com.alinaberlin.ecommerceshop.models.OrderItemId;
 import com.alinaberlin.ecommerceshop.models.OrderStatus;
@@ -17,7 +18,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -32,13 +32,15 @@ public class OrderService {
     private final CartService cartService;
 
     private final OrderItemRepository orderItemRepository;
+    private final OrderHistoryService orderHistoryService;
 
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, CartService cartService, OrderItemRepository orderItemRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, CartService cartService, OrderItemRepository orderItemRepository, OrderHistoryService orderHistoryService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.cartService = cartService;
         this.orderItemRepository = orderItemRepository;
+        this.orderHistoryService = orderHistoryService;
     }
 
     @Transactional
@@ -56,6 +58,7 @@ public class OrderService {
                 .map(item -> new OrderItem(new OrderItemId(item.getId().getProductId(), order.getId()),
                         item.getQuantity(), item.getProduct())).collect(Collectors.toSet());
         orderItemRepository.saveAll(items);
+        orderHistoryService.save(new OrderHistory(order, order.getOrderStatus(), new Date()));
         return order;
     }
 
@@ -69,6 +72,7 @@ public class OrderService {
 
             default -> throw new InvalidStateException("Unexpected value: " + status);
         }
+        orderHistoryService.save(new OrderHistory(order, order.getOrderStatus(), new Date()));
         return order;
     }
 
@@ -129,5 +133,9 @@ public class OrderService {
             return order;
         }
         throw new ForbiddenException("Current user doesn't has right");
+    }
+
+    public List<OrderHistory> getHistory(Long id) {
+        return orderHistoryService.findHistoryByOrderId(id);
     }
 }
