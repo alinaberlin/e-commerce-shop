@@ -31,11 +31,11 @@ public class SecurityConfiguration {
         http.csrf(s -> {
             try {
                 s.disable()
-                        .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
-                                .permitAll().anyRequest().authenticated())
+                        .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**", "/v3/api-docs/**")
+                        .permitAll().anyRequest().authenticated())
                         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .authenticationProvider(authenticationProvider).addFilterBefore(
-                                jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        .authenticationProvider(authenticationProvider)
+                        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -57,8 +57,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
