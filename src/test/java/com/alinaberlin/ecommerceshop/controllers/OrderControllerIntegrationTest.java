@@ -8,6 +8,7 @@ import com.alinaberlin.ecommerceshop.models.Role;
 import com.alinaberlin.ecommerceshop.models.User;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
+import com.alinaberlin.ecommerceshop.repositories.OrderHistoryRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
@@ -51,6 +52,8 @@ public class OrderControllerIntegrationTest {
     private CartRepository cartRepository;
     @Autowired
     private CartItemRepository cartItemRepository;
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
@@ -73,6 +76,7 @@ public class OrderControllerIntegrationTest {
     @Transactional
     @AfterEach
     public void tearDown() {
+        orderHistoryRepository.deleteAll();
         orderItemRepository.deleteAll();
         orderRepository.deleteAll();
         cartItemRepository.deleteAll();
