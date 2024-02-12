@@ -53,3 +53,9 @@ jobs:
         context: .
         push: true
         tags: aalina/ecommerce:latest
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+          service: 'ecommerce-cloud-run'
+          image: 'aalina/ecommerce:latest'
+      if: github.ref == 'refs/heads/main'
