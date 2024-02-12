@@ -27,10 +27,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Checkout
-      uses: actions/checkout@v4
-      if: github.ref == 'refs/heads/main'
-
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
       if: github.ref == 'refs/heads/main'
@@ -53,3 +49,13 @@ jobs:
         context: .
         push: true
         tags: aalina/ecommerce:latest
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}' # Replace with the name of your GitHub Actions secret
+      if: github.ref == 'refs/heads/main'
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+          service: 'ecommerce-cloud-run'
+          image: 'aalina/ecommerce:latest'
+      if: github.ref == 'refs/heads/main'
