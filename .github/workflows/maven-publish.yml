@@ -57,6 +57,7 @@ jobs:
       uses: 'google-github-actions/deploy-cloudrun@v2'
       with:
           service: 'ecommerce-cloud-run'
+          flags: '--allow-unauthenticated'
           image: 'aalina/ecommerce:latest'
           env_vars: |
             SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
