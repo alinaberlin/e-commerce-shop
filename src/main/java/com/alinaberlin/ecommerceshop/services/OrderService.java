@@ -76,6 +76,7 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
     public Order cancelOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow();
         if (order.getOrderStatus() == OrderStatus.CREATED) {
@@ -83,9 +84,9 @@ public class OrderService {
                 Product product = item.getProduct();
                 product.setQuantity(product.getQuantity() + 1);
                 productRepository.save(product);
+                orderItemRepository.deleteById(item.getId());
             });
-            order.setOrderStatus(OrderStatus.CANCELED);
-            orderRepository.save(order);
+            orderRepository.deleteById(order.getId());
             return order;
         }
         throw new InvalidStateException("Unexpected value: ");

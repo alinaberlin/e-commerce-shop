@@ -15,14 +15,19 @@ import com.alinaberlin.ecommerceshop.services.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.containers.MySQLContainer;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -34,6 +39,12 @@ import static org.hamcrest.Matchers.equalTo;
 @ActiveProfiles({"test"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CartControllerIntegrationTest {
+    @ClassRule
+    public static MySQLContainer mySQLContainer = new MySQLContainer()
+            .withDatabaseName("integration-tests-db")
+            .withUsername("sa")
+            .withPassword("sa");
+
 
     @Autowired
     private UserRepository userRepository;
@@ -137,5 +148,15 @@ public class CartControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+    static class Initializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + mySQLContainer.getUsername(),
+                    "spring.datasource.password=" + mySQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 }

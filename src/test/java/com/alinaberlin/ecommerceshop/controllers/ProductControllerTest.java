@@ -4,6 +4,7 @@ import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.services.ProductService;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.testcontainers.containers.MySQLContainer;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +28,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductControllerTest {
+    @ClassRule
+    public static MySQLContainer mySQLContainer = new MySQLContainer()
+            .withDatabaseName("integration-tests-db")
+            .withUsername("sa")
+            .withPassword("sa");
+
     @Mock
     private ProductRepository productRepository;
     private ProductController productController;
@@ -95,5 +106,15 @@ class ProductControllerTest {
         Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         ResponseEntity<Product> result = productController.deleteProduct(1L);
         Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+    }
+    static class Initializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + mySQLContainer.getUsername(),
+                    "spring.datasource.password=" + mySQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 }

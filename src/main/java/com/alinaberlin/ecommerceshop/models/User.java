@@ -151,7 +151,6 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", orders=" + orders +
-                '}';
+                "}";
     }
 }
