@@ -27,6 +27,8 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 
 import java.math.BigDecimal;
@@ -148,6 +150,14 @@ public class OrderControllerTest {
                     "spring.datasource.password=" + mySQLContainer.getPassword()
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
+    }
+    @DynamicPropertySource
+    static void initialize(DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add(
+                "spring.datasource.password", mySQLContainer::getPassword);
     }
 }
 

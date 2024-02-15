@@ -13,18 +13,23 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static io.restassured.RestAssured.given;
-
+@Testcontainers
 @ActiveProfiles({"test"})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthenticationControlerTest {
-    @ClassRule
+    @Container
     public static MySQLContainer mySQLContainer = new MySQLContainer()
             .withDatabaseName("integration-tests-db")
             .withUsername("sa")
@@ -38,15 +43,19 @@ public class AuthenticationControlerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @LocalServerPort
+    private Integer port;
+
     @AfterEach
     public void tearDown() {
         userRepository.deleteAll();
     }
 
+
     @Test
     void shouldSignupSuccessfull() throws JsonProcessingException {
         SignUpRequest signUpRequest = new SignUpRequest("alina@gmail.com", "1234567", "alina");
-        given().port(8080).and()
+        given().port(port).and()
                 .header("Content-type", "application/json")
                 .and().body(mapper.writeValueAsString(signUpRequest))
                 .when()
@@ -57,21 +66,19 @@ public class AuthenticationControlerTest {
     void shouldSigninSuccessfull() throws JsonProcessingException {
        User user = userRepository.save(new User("Alina", "alina@gmail.com", passwordEncoder.encode("12345"), Role.USER));
         SigninRequest signinRequest = new SigninRequest("alina@gmail.com", "12345");
-        given().port(8080).and()
+        given().port(port).and()
                 .header("Content-type", "application/json")
                 .and().body(mapper.writeValueAsString(signinRequest))
                 .when()
                 .post("/api/v1/auth/signin").then().assertThat().statusCode(200);
 
     }
-    static class Initializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
+    @DynamicPropertySource
+    static void initialize(DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add(
+                "spring.datasource.password", mySQLContainer::getPassword);
     }
 }

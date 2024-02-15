@@ -22,12 +22,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -35,11 +40,11 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-
+@Testcontainers
 @ActiveProfiles({"test"})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CartControllerIntegrationTest {
-    @ClassRule
+    @Container
     public static MySQLContainer mySQLContainer = new MySQLContainer()
             .withDatabaseName("integration-tests-db")
             .withUsername("sa")
@@ -61,11 +66,13 @@ public class CartControllerIntegrationTest {
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
+    @LocalServerPort
+    private Integer port;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     private String getToken() {
-        Response response = given().port(8080).and().header("Content-type", "application/json")
+        Response response = given().port(port).and().header("Content-type", "application/json")
                 .and().body(loginBody)
                 .when().post("/api/v1/auth/signin")
                 .then()
@@ -93,7 +100,7 @@ public class CartControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and().headers(headers)
                 .when().post("/cart")
                 .then().assertThat().statusCode(201);
@@ -106,7 +113,7 @@ public class CartControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and().headers(headers)
                 .and().body(mapper.writeValueAsString(new Item(product.getId(), 2)))
                 .when().post("/cart/item/add")
@@ -124,7 +131,7 @@ public class CartControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and().headers(headers)
                 .and().body(mapper.writeValueAsString(new Item(product.getId(), 1)))
                 .when().post("/cart/item/update")
@@ -142,21 +149,20 @@ public class CartControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and().headers(headers)
                 .when().delete("/cart/item/" + product.getId())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
-    static class Initializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
+    @DynamicPropertySource
+    static void initialize(DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add(
+                "spring.datasource.password", mySQLContainer::getPassword);
     }
+
 }

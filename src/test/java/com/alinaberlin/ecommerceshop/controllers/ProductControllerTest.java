@@ -17,7 +17,11 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,10 +29,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Testcontainers
 @ExtendWith(MockitoExtension.class)
 class ProductControllerTest {
-    @ClassRule
+    @Container
     public static MySQLContainer mySQLContainer = new MySQLContainer()
             .withDatabaseName("integration-tests-db")
             .withUsername("sa")
@@ -107,14 +111,12 @@ class ProductControllerTest {
         ResponseEntity<Product> result = productController.deleteProduct(1L);
         Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
     }
-    static class Initializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
+    @DynamicPropertySource
+    static void initialize(DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add(
+                "spring.datasource.password", mySQLContainer::getPassword);
     }
 }
