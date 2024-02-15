@@ -84,9 +84,9 @@ public class OrderService {
                 Product product = item.getProduct();
                 product.setQuantity(product.getQuantity() + 1);
                 productRepository.save(product);
-                orderItemRepository.deleteById(item.getId());
             });
-            orderRepository.deleteById(order.getId());
+            order.setOrderStatus(OrderStatus.CANCELED);
+            orderRepository.save(order);
             return order;
         }
         throw new InvalidStateException("Unexpected value: ");

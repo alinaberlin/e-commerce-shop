@@ -123,7 +123,6 @@ public class OrderControllerIntegrationTest {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order = orderRepository.save(order);
-        orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
