@@ -76,6 +76,7 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
     public Order cancelOrder(Long id) {
         Order order = orderRepository.findById(id).orElseThrow();
         if (order.getOrderStatus() == OrderStatus.CREATED) {

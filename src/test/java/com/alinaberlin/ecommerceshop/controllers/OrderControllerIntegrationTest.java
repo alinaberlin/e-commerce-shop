@@ -17,14 +17,24 @@ import com.alinaberlin.ecommerceshop.services.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.response.Response;
 import jakarta.transaction.Transactional;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -33,9 +43,16 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
+@Testcontainers
 @ActiveProfiles({"test"})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderControllerIntegrationTest {
+    @Container
+    public static MySQLContainer mySQLContainer = new MySQLContainer()
+            .withDatabaseName("integration-tests-db")
+            .withUsername("sa")
+            .withPassword("sa");
+
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -54,12 +71,14 @@ public class OrderControllerIntegrationTest {
     private CartItemRepository cartItemRepository;
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+    @LocalServerPort
+    private Integer port;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
 
     private String getToken() {
-        Response response = given().port(8080).and().header("Content-type", "application/json")
+        Response response = given().port(port).and().header("Content-type", "application/json")
                 .and().body(loginBody)
                 .when().post("/api/v1/auth/signin")
                 .then()
@@ -69,6 +88,7 @@ public class OrderControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        userRepository.deleteAll();
         user = userRepository.save(new User("Alina", "alina@gmail.com", passwordEncoder.encode("12345"), Role.USER));
         product = productRepository.save(new Product("Lipstick", "Dior Nude 02", 2, BigDecimal.valueOf(55.34)));
     }
@@ -93,7 +113,7 @@ public class OrderControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        Response response = given().port(8080)
+        Response response = given().port(port)
                 .and()
                 .headers(headers)
                 .when().post("/orders")
@@ -111,11 +131,10 @@ public class OrderControllerIntegrationTest {
         String token = getToken();
         Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order = orderRepository.save(order);
-        orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and()
                 .headers(headers)
                 .when().delete("/orders/" + order.getId())
@@ -133,7 +152,7 @@ public class OrderControllerIntegrationTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        given().port(8080)
+        given().port(port)
                 .and()
                 .headers(headers)
                 .when().get("/orders/" + order.getId())
@@ -141,6 +160,14 @@ public class OrderControllerIntegrationTest {
                 .assertThat()
                 .statusCode(200);
 
+    }
+    @DynamicPropertySource
+    static void initialize(DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add(
+                "spring.datasource.password", mySQLContainer::getPassword);
     }
 
 }
