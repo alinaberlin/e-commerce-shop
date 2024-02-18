@@ -1,0 +1,1564 @@
+{
+	"info": {
+		"_postman_id": "6bf7c0bc-1b90-4ee1-b22b-b846f75a5e3d",
+		"name": "OpenAPI definition",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16992"
+	},
+	"item": [
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "get Product By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "find All",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/search?page=<integer>&size=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"search"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "<integer>",
+											"description": "(Required) "
+										},
+										{
+											"key": "size",
+											"value": "<integer>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/search?page=<integer>&size=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												"search"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "size",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"pageable\": {\n    \"pageNumber\": \"<integer>\",\n    \"pageSize\": \"<integer>\",\n    \"offset\": \"<long>\",\n    \"sort\": {\n      \"sorted\": \"<boolean>\",\n      \"empty\": \"<boolean>\",\n      \"unsorted\": \"<boolean>\"\n    },\n    \"paged\": \"<boolean>\",\n    \"unpaged\": \"<boolean>\"\n  },\n  \"size\": \"<integer>\",\n  \"content\": [\n    {\n      \"id\": \"<long>\",\n      \"price\": \"<number>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"price\": \"<number>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"number\": \"<integer>\",\n  \"sort\": {\n    \"sorted\": \"<boolean>\",\n    \"empty\": \"<boolean>\",\n    \"unsorted\": \"<boolean>\"\n  },\n  \"numberOfElements\": \"<integer>\",\n  \"first\": \"<boolean>\",\n  \"last\": \"<boolean>\",\n  \"empty\": \"<boolean>\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<long>\",\n    \"price\": \"<number>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"quantity\": \"<integer>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"price\": \"<number>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"quantity\": \"<integer>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "history",
+							"item": [
+								{
+									"name": "get History",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id/history",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id",
+												"history"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<long>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/orders/:id/history",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"orders",
+														":id",
+														"history"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"id\": \"<long>\",\n    \"order\": {\n      \"id\": \"<long>\",\n      \"date\": \"<dateTime>\",\n      \"user\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"password\": \"<string>\",\n        \"role\": \"GUEST\",\n        \"enabled\": \"<boolean>\",\n        \"accountNonExpired\": \"<boolean>\",\n        \"accountNonLocked\": \"<boolean>\",\n        \"credentialsNonExpired\": \"<boolean>\",\n        \"username\": \"<string>\"\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"productId\": \"<long>\",\n            \"orderId\": \"<long>\"\n          },\n          \"quantity\": \"<integer>\",\n          \"product\": {\n            \"id\": \"<long>\",\n            \"price\": \"<number>\",\n            \"name\": \"<string>\",\n            \"description\": \"<string>\",\n            \"quantity\": \"<integer>\"\n          }\n        },\n        {\n          \"id\": {\n            \"productId\": \"<long>\",\n            \"orderId\": \"<long>\"\n          },\n          \"quantity\": \"<integer>\",\n          \"product\": {\n            \"id\": \"<long>\",\n            \"price\": \"<number>\",\n            \"name\": \"<string>\",\n            \"description\": \"<string>\",\n            \"quantity\": \"<integer>\"\n          }\n        }\n      ],\n      \"orderStatus\": \"DISPATCHED\",\n      \"total\": \"<number>\"\n    },\n    \"orderStatus\": \"DISPATCHED\",\n    \"statusDate\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"order\": {\n      \"id\": \"<long>\",\n      \"date\": \"<dateTime>\",\n      \"user\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"password\": \"<string>\",\n        \"role\": \"USER\",\n        \"enabled\": \"<boolean>\",\n        \"accountNonExpired\": \"<boolean>\",\n        \"accountNonLocked\": \"<boolean>\",\n        \"credentialsNonExpired\": \"<boolean>\",\n        \"username\": \"<string>\"\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"productId\": \"<long>\",\n            \"orderId\": \"<long>\"\n          },\n          \"quantity\": \"<integer>\",\n          \"product\": {\n            \"id\": \"<long>\",\n            \"price\": \"<number>\",\n            \"name\": \"<string>\",\n            \"description\": \"<string>\",\n            \"quantity\": \"<integer>\"\n          }\n        },\n        {\n          \"id\": {\n            \"productId\": \"<long>\",\n            \"orderId\": \"<long>\"\n          },\n          \"quantity\": \"<integer>\",\n          \"product\": {\n            \"id\": \"<long>\",\n            \"price\": \"<number>\",\n            \"name\": \"<string>\",\n            \"description\": \"<string>\",\n            \"quantity\": \"<integer>\"\n          }\n        }\n      ],\n      \"orderStatus\": \"CANCELED\",\n      \"total\": \"<number>\"\n    },\n    \"orderStatus\": \"CART\",\n    \"statusDate\": \"<dateTime>\"\n  }\n]"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get Order By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"date\": \"<dateTime>\",\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"USER\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  },\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"orderStatus\": \"DISPATCHED\",\n  \"total\": \"<number>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "cancel Order",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"date\": \"<dateTime>\",\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"USER\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  },\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"orderStatus\": \"DISPATCHED\",\n  \"total\": \"<number>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "change Status",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"CANCELED\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"CANCELED\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<long>\",\n  \"date\": \"<dateTime>\",\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"USER\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  },\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"orderStatus\": \"DISPATCHED\",\n  \"total\": \"<number>\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<long>\",\n    \"date\": \"<dateTime>\",\n    \"user\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"role\": \"USER\",\n      \"enabled\": \"<boolean>\",\n      \"accountNonExpired\": \"<boolean>\",\n      \"accountNonLocked\": \"<boolean>\",\n      \"credentialsNonExpired\": \"<boolean>\",\n      \"username\": \"<string>\"\n    },\n    \"items\": [\n      {\n        \"id\": {\n          \"productId\": \"<long>\",\n          \"orderId\": \"<long>\"\n        },\n        \"quantity\": \"<integer>\",\n        \"product\": {\n          \"id\": \"<long>\",\n          \"price\": \"<number>\",\n          \"name\": \"<string>\",\n          \"description\": \"<string>\",\n          \"quantity\": \"<integer>\"\n        }\n      },\n      {\n        \"id\": {\n          \"productId\": \"<long>\",\n          \"orderId\": \"<long>\"\n        },\n        \"quantity\": \"<integer>\",\n        \"product\": {\n          \"id\": \"<long>\",\n          \"price\": \"<number>\",\n          \"name\": \"<string>\",\n          \"description\": \"<string>\",\n          \"quantity\": \"<integer>\"\n        }\n      }\n    ],\n    \"orderStatus\": \"CART\",\n    \"total\": \"<number>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"date\": \"<dateTime>\",\n    \"user\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"role\": \"USER\",\n      \"enabled\": \"<boolean>\",\n      \"accountNonExpired\": \"<boolean>\",\n      \"accountNonLocked\": \"<boolean>\",\n      \"credentialsNonExpired\": \"<boolean>\",\n      \"username\": \"<string>\"\n    },\n    \"items\": [\n      {\n        \"id\": {\n          \"productId\": \"<long>\",\n          \"orderId\": \"<long>\"\n        },\n        \"quantity\": \"<integer>\",\n        \"product\": {\n          \"id\": \"<long>\",\n          \"price\": \"<number>\",\n          \"name\": \"<string>\",\n          \"description\": \"<string>\",\n          \"quantity\": \"<integer>\"\n        }\n      },\n      {\n        \"id\": {\n          \"productId\": \"<long>\",\n          \"orderId\": \"<long>\"\n        },\n        \"quantity\": \"<integer>\",\n        \"product\": {\n          \"id\": \"<long>\",\n          \"price\": \"<number>\",\n          \"name\": \"<string>\",\n          \"description\": \"<string>\",\n          \"quantity\": \"<integer>\"\n        }\n      }\n    ],\n    \"orderStatus\": \"CREATED\",\n    \"total\": \"<number>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"date\": \"<dateTime>\",\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"USER\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  },\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"orderId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"orderStatus\": \"DISPATCHED\",\n  \"total\": \"<number>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "item",
+					"item": [
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update Item",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"productId\": \"<long>\",\n  \"quantity\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cart/item/update",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												"item",
+												"update"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": \"<long>\",\n  \"quantity\": \"<integer>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/item/update",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														"item",
+														"update"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": {\n    \"productId\": \"<long>\",\n    \"cartId\": \"<long>\"\n  },\n  \"quantity\": \"<integer>\",\n  \"product\": {\n    \"id\": \"<long>\",\n    \"price\": \"<number>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"quantity\": \"<integer>\"\n  }\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "add",
+							"item": [
+								{
+									"name": "add Item",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"productId\": \"<long>\",\n  \"quantity\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cart/item/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												"item",
+												"add"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": \"<long>\",\n  \"quantity\": \"<integer>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/item/add",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														"item",
+														"add"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": {\n    \"productId\": \"<long>\",\n    \"cartId\": \"<long>\"\n  },\n  \"quantity\": \"<integer>\",\n  \"product\": {\n    \"id\": \"<long>\",\n    \"price\": \"<number>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"quantity\": \"<integer>\"\n  }\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "{productId}",
+							"item": [
+								{
+									"name": "delete Item",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/cart/item/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												"item",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<long>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/cart/item/:productId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														"item",
+														":productId"
+													],
+													"variable": [
+														{
+															"key": "productId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get Cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"cartId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"cartId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"ADMIN\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "create Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"items\": [\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"cartId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    },\n    {\n      \"id\": {\n        \"productId\": \"<long>\",\n        \"cartId\": \"<long>\"\n      },\n      \"quantity\": \"<integer>\",\n      \"product\": {\n        \"id\": \"<long>\",\n        \"price\": \"<number>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"quantity\": \"<integer>\"\n      }\n    }\n  ],\n  \"user\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"role\": \"ADMIN\",\n    \"enabled\": \"<boolean>\",\n    \"accountNonExpired\": \"<boolean>\",\n    \"accountNonLocked\": \"<boolean>\",\n    \"credentialsNonExpired\": \"<boolean>\",\n    \"username\": \"<string>\"\n  }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "signup",
+									"item": [
+										{
+											"name": "signup",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/auth/signup",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"auth",
+														"signup"
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/auth/signup",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"auth",
+																"signup"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"token\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "signin",
+									"item": [
+										{
+											"name": "signin",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/auth/signin",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"auth",
+														"signin"
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/auth/signin",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"auth",
+																"signin"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"token\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://ecommerce-cloud-run-pcp5menvwa-uc.a.run.app"
+		}
+	]
+}
