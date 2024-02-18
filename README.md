@@ -46,4 +46,5 @@ How to run it:
 * Build, test and package: ```./mvnw -B package```
 * Start the app locally: ```./mvnw spring-boot:run```
 
-
+## Open API Documentation
+Open API Documentations can be found at the following url's: [https://ecommerce-cloud-run-pcp5menvwa-uc.a.run.app/swagger-ui/index.html](https://ecommerce-cloud-run-pcp5menvwa-uc.a.run.app/swagger-ui/index.html)
