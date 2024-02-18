@@ -421,7 +421,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"<long>\",\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
+							"raw": "{\n  \"price\": \"<number>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"quantity\": \"<integer>\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
