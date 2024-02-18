@@ -10,15 +10,17 @@ The following technologies are used in this project:
 * Spring Data JPA
 * MySQL database
 * Maven
-## Project Structure and architecture
+## Project Structure and architecture
 Using the following layered architecture, this project is set up as a traditional web project:
 * Presentation Layer which it is implemented using Spring Rest
 * Business Layer represented by a collection of Spring Beans marked with @Service to denote that they are part of the business layer
 * Data Access Layer represented by a collection of Spring JPA Repositories
+
 Each of this layers implementations can be found in their own Java packages:
 * Presentation Layer in controllers package
 * Business Layers in services package
 * Data Access Layer is repositories package
+
 Apart from the 3 layers, the project contains also addional classes that are necessary for this project to be complete and in way or an other are part of one of the 3 layers:
 * Configuration: can be found in config package and containes one configuration bean, an http filter and the global exceptions handler
 * Custom exceptions: are implemented in exceptions package
