@@ -9,7 +9,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(servers = {@Server(url = "/")},
+@OpenAPIDefinition(servers =
+        {
+                @Server(url = "https://ecommerce-cloud-run-pcp5menvwa-uc.a.run.app", description="Production"),
+                @Server(url = "http://localhost:8080", description="Dev"),
+                @Server(url = "http://localhost:8081", description="Local")
+        },
         info = @Info(title = "EShop API", version = "1.0", description = "Eshop Rest API"))
 @SecurityScheme(
         name = "Authorization",
