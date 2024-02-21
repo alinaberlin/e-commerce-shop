@@ -58,7 +58,7 @@ jobs:
       with:
           service: 'ecommerce-cloud-run'
           flags: '--allow-unauthenticated'
-          image: 'aalina/ecommerce:latest'
+          image: 'aalina/ecommerce:${GITHUB_RUN_ID}'
           env_vars: |
             SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
             SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}
