@@ -6,6 +6,7 @@ import com.alinaberlin.ecommerceshop.models.User;
 import com.alinaberlin.ecommerceshop.payloads.Item;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/cart")
 public class CartController {

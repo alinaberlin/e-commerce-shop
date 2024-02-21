@@ -2,6 +2,7 @@ package com.alinaberlin.ecommerceshop.controllers;
 
 import com.alinaberlin.ecommerceshop.models.Product;
 import com.alinaberlin.ecommerceshop.services.ProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Objects;
 
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/products")
 public class ProductController {

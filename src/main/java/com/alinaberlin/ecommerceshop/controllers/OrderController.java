@@ -6,6 +6,7 @@ import com.alinaberlin.ecommerceshop.models.User;
 import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.OrderService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
