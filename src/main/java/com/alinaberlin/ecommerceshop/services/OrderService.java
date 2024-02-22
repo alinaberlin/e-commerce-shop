@@ -1,5 +1,6 @@
 package com.alinaberlin.ecommerceshop.services;
 
+import com.alinaberlin.ecommerceshop.exceptions.CartEmptyException;
 import com.alinaberlin.ecommerceshop.exceptions.ForbiddenException;
 import com.alinaberlin.ecommerceshop.exceptions.InsuficientStockException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
@@ -53,12 +54,16 @@ public class OrderService {
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.valueOf(0.0), BigDecimal::add);
         Order order = orderRepository.save(new Order(new Date(), OrderStatus.CREATED, cart.getUser(), total));
+        if (cart.getItems().isEmpty()) {
+            throw new CartEmptyException("Cart is empty");
+        }
         Set<OrderItem> items = cart.getItems()
                 .stream()
                 .map(item -> new OrderItem(new OrderItemId(item.getId().getProductId(), order.getId()),
                         item.getQuantity(), item.getProduct())).collect(Collectors.toSet());
         orderItemRepository.saveAll(items);
         orderHistoryService.save(new OrderHistory(order, order.getOrderStatus(), new Date()));
+        cartService.clearCart(cart.getId());
         order.setItems(items);
         return order;
     }

@@ -1,5 +1,6 @@
 package com.alinaberlin.ecommerceshop.config;
 
+import com.alinaberlin.ecommerceshop.exceptions.CartEmptyException;
 import com.alinaberlin.ecommerceshop.exceptions.ForbiddenException;
 import com.alinaberlin.ecommerceshop.exceptions.InsuficientStockException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
@@ -48,5 +49,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorMsg> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorMsg("CONFLICT", "Duplicate value"));
+    }
+
+    @ExceptionHandler(CartEmptyException.class)
+    public ResponseEntity<ErrorMsg> handleCartEmptyException(CartEmptyException e) {
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ErrorMsg("EXPECTATION_FAILED", e.getMessage()));
     }
 }

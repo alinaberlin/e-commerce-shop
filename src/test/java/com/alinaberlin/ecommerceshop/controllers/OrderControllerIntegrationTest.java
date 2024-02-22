@@ -14,20 +14,15 @@ import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.response.Response;
 import jakarta.transaction.Transactional;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -106,7 +101,7 @@ public class OrderControllerIntegrationTest {
     }
 
     @Test
-    void shouldCreateOrderSuccessful() throws JsonProcessingException {
+    void shouldCreateOrderSuccessful() {
         cartService.createCart(new Cart(user));
         cartService.addItem(user.getId(), product.getId(), 2);
         String token = getToken();
@@ -124,6 +119,25 @@ public class OrderControllerIntegrationTest {
                 .response();
         Assertions.assertEquals(BigDecimal.valueOf(55.34).multiply(BigDecimal.valueOf(2)),
                 BigDecimal.valueOf(response.jsonPath().getDouble("total")));
+    }
+
+    @Test
+    void shouldReturnCardEmptyErrorMessage() {
+        cartService.createCart(new Cart(user));
+        String token = getToken();
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+        Response response = given().port(port)
+                .and()
+                .headers(headers)
+                .when().post("/orders")
+                .then()
+                .assertThat()
+                .statusCode(417)
+                .extract()
+                .response();
+        Assertions.assertEquals("Cart is empty", response.jsonPath().getString("message"));
     }
 
     @Test

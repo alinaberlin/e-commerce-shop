@@ -74,6 +74,12 @@ public class CartService {
         cartItemRepository.delete(cartItem);
     }
 
+    @Transactional
+    public void clearCart(Long id) {
+        Cart cart = cartRepository.findById(id).get();
+        cartItemRepository.deleteAll(cart.getItems());
+    }
+
     public Cart findByUserId(long id) {
         return cartRepository.findByUserId(id).orElseThrow(() -> new InvalidIdException("Cart not found"));
     }
