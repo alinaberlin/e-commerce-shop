@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition(servers =
         {
-                @Server(url = "/", description="Server URL")
+                @Server(url = "/", description = "Server URL")
         },
         info = @Info(title = "EShop API", version = "1.0", description = "Eshop Rest API"))
 @SecurityScheme(

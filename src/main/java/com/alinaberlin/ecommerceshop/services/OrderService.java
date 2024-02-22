@@ -59,6 +59,7 @@ public class OrderService {
                         item.getQuantity(), item.getProduct())).collect(Collectors.toSet());
         orderItemRepository.saveAll(items);
         orderHistoryService.save(new OrderHistory(order, order.getOrderStatus(), new Date()));
+        order.setItems(items);
         return order;
     }
 
