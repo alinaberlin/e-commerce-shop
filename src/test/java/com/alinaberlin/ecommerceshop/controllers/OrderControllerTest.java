@@ -74,9 +74,9 @@ public class OrderControllerTest {
     void shouldGetAllOrders() {
         User user = new User("Trei", "alina@gmail.com", "123456", Role.ADMIN);
         user.setId(1);
-        Order order = new Order(new Date(), OrderStatus.CART, user);
+        Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order.setId(12L);
-        Order order2 = new Order(new Date(), OrderStatus.CART, user);
+        Order order2 = new Order(new Date(), OrderStatus.CREATED, user);
         order2.setId(13L);
         Mockito.when(principal.getName()).thenReturn(user.getUsername());
         Mockito.when(userRepository.findUserByEmail(principal.getName())).thenReturn(Optional.of(user));
@@ -89,7 +89,7 @@ public class OrderControllerTest {
     void shouldGetOrderById() {
         User user = new User("Trei", "alina@gmail.com", "123456", Role.ADMIN);
         user.setId(1);
-        Order order = new Order(new Date(), OrderStatus.CART, user);
+        Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order.setId(1L);
         Mockito.when(principal.getName()).thenReturn(user.getUsername());
         Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(order));

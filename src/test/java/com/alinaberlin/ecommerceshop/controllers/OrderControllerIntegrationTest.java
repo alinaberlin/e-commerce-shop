@@ -161,7 +161,7 @@ public class OrderControllerIntegrationTest {
     @Test
     void shouldGiveAnOrderByIt() {
         String token = getToken();
-        Order order = new Order(new Date(), OrderStatus.CART, user);
+        Order order = new Order(new Date(), OrderStatus.CREATED, user);
         order = orderRepository.save(order);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
