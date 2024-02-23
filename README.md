@@ -32,7 +32,7 @@ In order to have a testing environment as similar as possible with our GCP deplo
 For testing the RESTFful end-points I am using REST-Assured framework.
 ## CI/CD
 The CI/CD consist of a single pipeline implemented using GitHub Actions.
-The pipeline is having a single job and several jobs.
+The pipeline is having a single job and several steps.
 On main branch all steps are executed, but on dev and feature branches only maven build&test step is executed.
 The CI/CD pipeline running the build and the tests on every push and on every push on main branch it is executing a new deployment on GCP.
 ## How to run the project locally
