@@ -18,10 +18,10 @@ Using the following layered architecture, this project is set up as a traditiona
 
 Each of this layers implementations can be found in their own Java packages:
 * Presentation Layer in controllers package
-* Business Layers in services package
+* Business Layer in services package
 * Data Access Layer is repositories package
 
-Apart from the 3 layers, the project contains also addional classes that are necessary for this project to be complete and in way or an other are part of one of the 3 layers:
+Apart from the 3 layers, the project contains also additional classes that are necessary for this project to be complete and in way or an other are part of one of the 3 layers:
 * Configuration: can be found in config package and containes one configuration bean, an http filter and the global exceptions handler
 * Custom exceptions: are implemented in exceptions package
 * Database models: are implementeds in models package and are part of DAL layer
