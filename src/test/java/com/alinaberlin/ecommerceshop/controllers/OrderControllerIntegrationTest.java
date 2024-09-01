@@ -12,6 +12,7 @@ import com.alinaberlin.ecommerceshop.repositories.OrderHistoryRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
 import io.restassured.response.Response;
@@ -66,6 +67,8 @@ public class OrderControllerIntegrationTest {
     private CartItemRepository cartItemRepository;
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
     @LocalServerPort
     private Integer port;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
@@ -91,6 +94,7 @@ public class OrderControllerIntegrationTest {
     @Transactional
     @AfterEach
     public void tearDown() {
+        refreshTokenRepository.deleteAll();
         orderHistoryRepository.deleteAll();
         orderItemRepository.deleteAll();
         orderRepository.deleteAll();

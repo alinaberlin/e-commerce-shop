@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
 import com.alinaberlin.ecommerceshop.payloads.JwtAuthenticationResponse;
+import com.alinaberlin.ecommerceshop.payloads.RefreshTokenRequest;
 import com.alinaberlin.ecommerceshop.payloads.SignUpRequest;
 import com.alinaberlin.ecommerceshop.payloads.SigninRequest;
 import com.alinaberlin.ecommerceshop.services.AuthenticationService;
@@ -32,5 +33,10 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody @Valid SigninRequest request) {
         return ResponseEntity.ok(authenticationService.signIn(request));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtAuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 }

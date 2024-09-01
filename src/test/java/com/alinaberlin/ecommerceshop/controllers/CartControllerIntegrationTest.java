@@ -10,6 +10,7 @@ import com.alinaberlin.ecommerceshop.payloads.Item;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -63,6 +64,8 @@ public class CartControllerIntegrationTest {
     private CartRepository cartRepository;
     @Autowired
     private CartItemRepository cartItemRepository;
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
@@ -88,6 +91,7 @@ public class CartControllerIntegrationTest {
 
     @AfterEach
     void tearDown() {
+        refreshTokenRepository.deleteAll();
         cartItemRepository.deleteAll();
         cartRepository.deleteAll();
         productRepository.deleteAll();
