@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Product>> findAll(@RequestParam("page") int pageNum, @RequestParam("size")int size){
+    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam("page") int pageNum, @RequestParam("size")int size){
         return ResponseEntity.ok(productService.findAll(pageNum, size));
     }
 

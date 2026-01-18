@@ -6,6 +6,7 @@ import com.alinaberlin.ecommerceshop.models.dtos.ProductDTO;
 import com.alinaberlin.ecommerceshop.models.entities.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,10 @@ public class ProductService {
 
         return productRepository.findProductByName(name).orElse(null);
     }
-    public Page<Product> findAll(int pageNum, int size){
+    public Page<ProductDTO> findAll(int pageNum, int size){
         PageRequest request = PageRequest.of(pageNum, size);
-        return productRepository.findAll(request);
+        List<ProductDTO> productsList = productRepository.findAll(request).stream().map(productMapper::fromEntity).toList();
+        return new PageImpl<>(productsList, PageRequest.of(pageNum, size), productsList.size());
     }
 
     public Product findById(Long id) {
