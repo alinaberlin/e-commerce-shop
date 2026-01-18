@@ -1,8 +1,8 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Cart;
-import com.alinaberlin.ecommerceshop.models.CartItem;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Cart;
+import com.alinaberlin.ecommerceshop.models.entities.CartItem;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.payloads.Item;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;

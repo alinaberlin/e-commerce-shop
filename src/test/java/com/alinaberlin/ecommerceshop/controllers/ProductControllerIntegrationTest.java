@@ -1,8 +1,8 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Product;
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderHistoryRepository;

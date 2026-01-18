@@ -1,7 +1,7 @@
 package com.alinaberlin.ecommerceshop.repositories;
 
 
-import com.alinaberlin.ecommerceshop.models.Cart;
+import com.alinaberlin.ecommerceshop.models.entities.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,35 +1,22 @@
-package com.alinaberlin.ecommerceshop.models;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+package com.alinaberlin.ecommerceshop.models.dtos;
 
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-public class OrderHistory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class OrderHistoryDTO {
+
     private Long id;
-    @ManyToOne
-    private Order order;
-    @Enumerated(EnumType.STRING)
+    private OrderDTO order;
     private OrderStatus orderStatus;
     private Date statusDate;
 
-    public OrderHistory(Order order, OrderStatus orderStatus, Date statusDate) {
+    public OrderHistoryDTO(OrderDTO order, OrderStatus orderStatus, Date statusDate) {
         this.order = order;
         this.orderStatus = orderStatus;
         this.statusDate = statusDate;
     }
 
-    public OrderHistory() {
+    public OrderHistoryDTO() {
     }
 
     public Long getId() {
@@ -40,11 +27,11 @@ public class OrderHistory {
         this.id = id;
     }
 
-    public Order getOrder() {
+    public OrderDTO getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderDTO order) {
         this.order = order;
     }
 
@@ -68,18 +55,18 @@ public class OrderHistory {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderHistory that = (OrderHistory) o;
-        return Objects.equals(getId(), that.getId());
+        OrderHistoryDTO that = (OrderHistoryDTO) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "OrderHistory{" +
                 "id=" + id +
                 ", order=" + order +
                 ", orderStatus=" + orderStatus +

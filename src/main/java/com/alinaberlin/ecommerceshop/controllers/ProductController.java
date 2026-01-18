@@ -1,6 +1,7 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Product;
+import com.alinaberlin.ecommerceshop.models.dtos.ProductDTO;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
 import com.alinaberlin.ecommerceshop.services.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
@@ -40,8 +41,8 @@ public class ProductController {
 
     //GET/ to list all properties/to list a product
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.findAll();
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> products = productService.findAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

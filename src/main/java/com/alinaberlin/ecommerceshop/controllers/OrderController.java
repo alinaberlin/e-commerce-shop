@@ -1,8 +1,8 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Order;
-import com.alinaberlin.ecommerceshop.models.OrderHistory;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Order;
+import com.alinaberlin.ecommerceshop.models.entities.OrderHistory;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.OrderService;

@@ -1,7 +1,7 @@
 package com.alinaberlin.ecommerceshop.repositories;
 
-import com.alinaberlin.ecommerceshop.models.RefreshToken;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.RefreshToken;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 

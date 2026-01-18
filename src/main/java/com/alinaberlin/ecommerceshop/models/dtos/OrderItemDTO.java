@@ -1,35 +1,22 @@
-package com.alinaberlin.ecommerceshop.models;
-
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.validation.constraints.Min;
+package com.alinaberlin.ecommerceshop.models.dtos;
 
 import java.util.Objects;
 
-@Entity
-public class OrderItem {
+public class OrderItemDTO {
 
-    @EmbeddedId
     private OrderItemId id;
 
-    @Min(1)
     private int quantity;
 
-    @ManyToOne
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductDTO product;
 
-    public OrderItem(OrderItemId id, int quantity, Product product) {
+    public OrderItemDTO(OrderItemId id, int quantity, ProductDTO product) {
         this.id = id;
         this.quantity = quantity;
         this.product = product;
     }
 
-    public OrderItem() {
+    public OrderItemDTO() {
     }
 
     public OrderItemId getId() {
@@ -48,11 +35,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Product getProduct() {
+    public ProductDTO getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductDTO product) {
         this.product = product;
     }
 
@@ -60,7 +47,7 @@ public class OrderItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderItem orderItem = (OrderItem) o;
+        OrderItemDTO orderItem = (OrderItemDTO) o;
         return Objects.equals(getId(), orderItem.getId());
     }
 

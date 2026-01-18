@@ -1,12 +1,11 @@
 package com.alinaberlin.ecommerceshop.services;
 
 import com.alinaberlin.ecommerceshop.exceptions.TokenRefreshException;
-import com.alinaberlin.ecommerceshop.models.RefreshToken;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.RefreshToken;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

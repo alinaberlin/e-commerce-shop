@@ -1,8 +1,8 @@
 package com.alinaberlin.ecommerceshop.services;
 
-import com.alinaberlin.ecommerceshop.models.RefreshToken;
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.RefreshToken;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.payloads.JwtAuthenticationResponse;
 import com.alinaberlin.ecommerceshop.payloads.RefreshTokenRequest;
 import com.alinaberlin.ecommerceshop.payloads.SignUpRequest;

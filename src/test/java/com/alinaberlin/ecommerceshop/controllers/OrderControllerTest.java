@@ -2,11 +2,11 @@ package com.alinaberlin.ecommerceshop.controllers;
 
 
 import com.alinaberlin.ecommerceshop.exceptions.InvalidStateException;
-import com.alinaberlin.ecommerceshop.models.Order;
-import com.alinaberlin.ecommerceshop.models.OrderStatus;
-import com.alinaberlin.ecommerceshop.models.Product;
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Order;
+import com.alinaberlin.ecommerceshop.models.entities.OrderStatus;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.payloads.UpdateOrderStatus;
 import com.alinaberlin.ecommerceshop.repositories.OrderItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;

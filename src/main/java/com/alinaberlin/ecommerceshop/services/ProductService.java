@@ -1,7 +1,9 @@
 package com.alinaberlin.ecommerceshop.services;
 
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
-import com.alinaberlin.ecommerceshop.models.Product;
+import com.alinaberlin.ecommerceshop.models.ProductMapper;
+import com.alinaberlin.ecommerceshop.models.dtos.ProductDTO;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,8 +15,11 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    private final ProductMapper productMapper;
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     public Product findByName(String name) {
@@ -30,8 +35,8 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new InvalidIdException("Product not found"));
     }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<ProductDTO> findAll() {
+        return productRepository.findAll().stream().map(productMapper::fromEntity).toList();
     }
 
     public void deleteById(Long id) {

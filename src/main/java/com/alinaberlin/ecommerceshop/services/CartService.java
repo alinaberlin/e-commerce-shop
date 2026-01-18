@@ -2,10 +2,10 @@ package com.alinaberlin.ecommerceshop.services;
 
 import com.alinaberlin.ecommerceshop.exceptions.InsuficientStockException;
 import com.alinaberlin.ecommerceshop.exceptions.InvalidIdException;
-import com.alinaberlin.ecommerceshop.models.Cart;
-import com.alinaberlin.ecommerceshop.models.CartItem;
-import com.alinaberlin.ecommerceshop.models.CartItemId;
-import com.alinaberlin.ecommerceshop.models.Product;
+import com.alinaberlin.ecommerceshop.models.entities.Cart;
+import com.alinaberlin.ecommerceshop.models.entities.CartItem;
+import com.alinaberlin.ecommerceshop.models.entities.CartItemId;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
