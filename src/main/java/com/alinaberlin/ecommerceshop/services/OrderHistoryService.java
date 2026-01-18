@@ -1,6 +1,6 @@
 package com.alinaberlin.ecommerceshop.services;
 
-import com.alinaberlin.ecommerceshop.models.OrderHistory;
+import com.alinaberlin.ecommerceshop.models.entities.OrderHistory;
 import com.alinaberlin.ecommerceshop.repositories.OrderHistoryRepository;
 import org.springframework.stereotype.Service;
 

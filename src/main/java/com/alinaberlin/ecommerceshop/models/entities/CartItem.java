@@ -1,4 +1,4 @@
-package com.alinaberlin.ecommerceshop.models;
+package com.alinaberlin.ecommerceshop.models.entities;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

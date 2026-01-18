@@ -1,17 +1,18 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Cart;
-import com.alinaberlin.ecommerceshop.models.Order;
-import com.alinaberlin.ecommerceshop.models.OrderStatus;
-import com.alinaberlin.ecommerceshop.models.Product;
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Cart;
+import com.alinaberlin.ecommerceshop.models.entities.Order;
+import com.alinaberlin.ecommerceshop.models.entities.OrderStatus;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderHistoryRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.OrderRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
 import io.restassured.response.Response;
@@ -66,6 +67,8 @@ public class OrderControllerIntegrationTest {
     private CartItemRepository cartItemRepository;
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
     @LocalServerPort
     private Integer port;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
@@ -91,6 +94,7 @@ public class OrderControllerIntegrationTest {
     @Transactional
     @AfterEach
     public void tearDown() {
+        refreshTokenRepository.deleteAll();
         orderHistoryRepository.deleteAll();
         orderItemRepository.deleteAll();
         orderRepository.deleteAll();

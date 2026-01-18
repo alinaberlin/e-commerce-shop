@@ -1,30 +1,25 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Cart;
-import com.alinaberlin.ecommerceshop.models.CartItem;
-import com.alinaberlin.ecommerceshop.models.CartItemId;
-import com.alinaberlin.ecommerceshop.models.Product;
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.Cart;
+import com.alinaberlin.ecommerceshop.models.entities.Product;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
 import com.alinaberlin.ecommerceshop.payloads.Item;
 import com.alinaberlin.ecommerceshop.repositories.CartItemRepository;
 import com.alinaberlin.ecommerceshop.repositories.CartRepository;
 import com.alinaberlin.ecommerceshop.repositories.ProductRepository;
+import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
 import com.alinaberlin.ecommerceshop.services.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -63,6 +58,8 @@ public class CartControllerIntegrationTest {
     private CartRepository cartRepository;
     @Autowired
     private CartItemRepository cartItemRepository;
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
     private static String loginBody = "{\"email\":\"alina@gmail.com\", \"password\":\"12345\" }";
     private User user;
     private Product product;
@@ -88,6 +85,7 @@ public class CartControllerIntegrationTest {
 
     @AfterEach
     void tearDown() {
+        refreshTokenRepository.deleteAll();
         cartItemRepository.deleteAll();
         cartRepository.deleteAll();
         productRepository.deleteAll();

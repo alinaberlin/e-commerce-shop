@@ -1,21 +1,22 @@
 package com.alinaberlin.ecommerceshop.controllers;
 
-import com.alinaberlin.ecommerceshop.models.Role;
-import com.alinaberlin.ecommerceshop.models.User;
+import com.alinaberlin.ecommerceshop.models.entities.RefreshToken;
+import com.alinaberlin.ecommerceshop.models.entities.Role;
+import com.alinaberlin.ecommerceshop.models.entities.User;
+import com.alinaberlin.ecommerceshop.payloads.JwtAuthenticationResponse;
+import com.alinaberlin.ecommerceshop.payloads.RefreshTokenRequest;
 import com.alinaberlin.ecommerceshop.payloads.SignUpRequest;
 import com.alinaberlin.ecommerceshop.payloads.SigninRequest;
+import com.alinaberlin.ecommerceshop.repositories.RefreshTokenRepository;
 import com.alinaberlin.ecommerceshop.repositories.UserRepository;
+import com.alinaberlin.ecommerceshop.services.RefreshTokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -23,6 +24,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import static org.junit.jupiter.api.Assertions.*;
 
 import static io.restassured.RestAssured.given;
 @Testcontainers
@@ -43,11 +45,18 @@ public class AuthenticationControlerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     @LocalServerPort
     private Integer port;
 
     @AfterEach
     public void tearDown() {
+        refreshTokenRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -66,13 +75,29 @@ public class AuthenticationControlerTest {
     void shouldSigninSuccessfull() throws JsonProcessingException {
        User user = userRepository.save(new User("Alina", "alina@gmail.com", passwordEncoder.encode("12345"), Role.USER));
         SigninRequest signinRequest = new SigninRequest("alina@gmail.com", "12345");
-        given().port(port).and()
+        JwtAuthenticationResponse response = given().port(port).and()
                 .header("Content-type", "application/json")
                 .and().body(mapper.writeValueAsString(signinRequest))
                 .when()
-                .post("/api/v1/auth/signin").then().assertThat().statusCode(200);
-
+                .post("/api/v1/auth/signin").then().assertThat().statusCode(200).extract()
+                .as(JwtAuthenticationResponse.class);
+        assertNotNull(response.getRefreshToken());
     }
+
+    @Test
+    void shouldRefreshTokenSuccessfull() throws JsonProcessingException {
+        User user = userRepository.save(new User("Alina", "alina2@gmail.com", passwordEncoder.encode("12345"), Role.USER));
+        RefreshToken token = refreshTokenService.createRefreshToken(user.getId());
+        RefreshTokenRequest request = new RefreshTokenRequest(token.getToken());
+        JwtAuthenticationResponse response = given().port(port).and()
+                .header("Content-type", "application/json")
+                .and().body(mapper.writeValueAsString(request))
+                .when()
+                .post("/api/v1/auth/refresh").then().assertThat().statusCode(200).extract()
+                .as(JwtAuthenticationResponse.class);
+        assertNotNull(response.getRefreshToken());
+    }
+
     @DynamicPropertySource
     static void initialize(DynamicPropertyRegistry registry) {
         registry.add(

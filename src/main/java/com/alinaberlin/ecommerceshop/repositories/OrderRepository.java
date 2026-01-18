@@ -1,7 +1,7 @@
 package com.alinaberlin.ecommerceshop.repositories;
 
-import com.alinaberlin.ecommerceshop.models.Order;
-import com.alinaberlin.ecommerceshop.models.OrderStatus;
+import com.alinaberlin.ecommerceshop.models.entities.Order;
+import com.alinaberlin.ecommerceshop.models.entities.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

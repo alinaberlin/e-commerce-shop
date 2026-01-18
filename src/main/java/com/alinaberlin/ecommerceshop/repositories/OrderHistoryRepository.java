@@ -1,6 +1,6 @@
 package com.alinaberlin.ecommerceshop.repositories;
 
-import com.alinaberlin.ecommerceshop.models.OrderHistory;
+import com.alinaberlin.ecommerceshop.models.entities.OrderHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.alinaberlin.ecommerceshop.models;
+package com.alinaberlin.ecommerceshop.models.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
